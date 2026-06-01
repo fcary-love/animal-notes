@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#faf7f0"/>
+  <!-- paw pads -->
+  <ellipse cx="22" cy="18" rx="6" ry="6.8" fill="#5c7a5e" opacity="0.85"/>
+  <ellipse cx="34" cy="15" rx="5" ry="5.8" fill="#5c7a5e" opacity="0.85"/>
+  <ellipse cx="45" cy="22" rx="4.5" ry="5.2" fill="#5c7a5e" opacity="0.85"/>
+  <ellipse cx="13.5" cy="28" rx="4.5" ry="5.2" fill="#5c7a5e" opacity="0.85"/>
+  <!-- main pad -->
+  <path d="M26 36c-2.2 5-3.6 8.8-3.6 11 0 3 2 4.8 4.8 4.8s5-1.8 5-4.8c0-2.5-1.2-5.8-2.8-9.2" fill="#5c7a5e" opacity="0.75"/>
+  <!-- pen nib -->
+  <path d="M38 35l-5 8.5c-.3.5 0 1 .6 1.2l8-4c4-3.2 7.2-6.5 8.8-8.5.4-.5.4-1.2 0-1.5-.4-.5-1.2-.5-1.5 0L38 35z" fill="#c17b60" opacity="0.9"/>
+  <line x1="33" y1="44.5" x2="29.5" y2="51" stroke="#c17b60" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
+</svg>

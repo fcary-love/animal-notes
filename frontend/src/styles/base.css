@@ -1,0 +1,84 @@
+/* ============================================
+   宠物时光手帐 — 自然主义科学手稿 (Naturalist's Field Journal)
+   参照物：19 世纪博物学家野外考察笔记 — 泛黄纸张、植物标本、手绘插图、墨水标注
+   三个关键词：标本、泛黄纸、墨水笔迹
+   ============================================ */
+
+:root {
+  --bg-body: #faf7f0;
+  --bg-paper: #faf7f0;
+  --bg-warm: #f5efe0;
+  --bg-aged: #ede4d3;
+  --bg-card: #faf7f0;
+  --bg-input: #fdfaf5;
+  --bg-surface: #fffef9;
+
+  --text-primary: #3d3226;
+  --text-secondary: #5c4d3c;
+  --text-muted: #9b8c7c;
+  --text-inverse: #faf7f0;
+
+  --accent: #5c7a5e;
+  --accent-light: #7a9a7c;
+  --accent-glow: #b8cfb9;
+  --accent-surface: rgba(92, 122, 94, 0.08);
+
+  --spot: #c17b60;
+  --spot-glow: #e8b4a0;
+
+  --success: #6b8e6b;
+  --warning: #c9a96e;
+  --danger: #b5533d;
+
+  --border-subtle: #e8e0d0;
+  --border-default: #d4c9b5;
+  --border-strong: #b8a98f;
+
+  --shadow-sm: 0 1px 2px rgba(61, 50, 38, 0.06);
+  --shadow-card: 0 2px 8px rgba(61, 50, 38, 0.08);
+  --shadow-elevated: 0 8px 24px rgba(61, 50, 38, 0.12);
+
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-full: 999px;
+
+  --font-display: 'Noto Serif SC', 'SimSun', serif;
+  --font-body: 'LXGW WenKai', 'KaiTi', 'STKaiti', serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --duration-fast: 0.15s;
+  --duration-normal: 0.25s;
+  --duration-slow: 0.5s;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  font-size: 16px;
+  background: var(--bg-paper);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: var(--font-body);
+  line-height: 1.8;
+  min-height: 100vh;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+::selection { background: var(--accent-surface); color: var(--text-primary); }
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+}

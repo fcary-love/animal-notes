@@ -1,0 +1,16 @@
+CREATE TABLE moment_embeddings (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    moment_id BIGINT NOT NULL UNIQUE,
+    embedding JSON NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (moment_id) REFERENCES moments(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE ai_conversations (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    pet_id BIGINT,
+    role VARCHAR(20) NOT NULL,
+    content TEXT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

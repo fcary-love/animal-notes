@@ -1,0 +1,20 @@
+CREATE TABLE health_events (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    pet_id BIGINT NOT NULL,
+    event_type VARCHAR(20) NOT NULL COMMENT 'VACCINE/CHECKUP/DEWORMING/NEUTERING/SURGERY/MEDICATION/OTHER',
+    title VARCHAR(100) NOT NULL COMMENT '事件标题',
+    description TEXT COMMENT '详细描述',
+    event_date DATE NOT NULL COMMENT '事件发生日期',
+    next_date DATE COMMENT '下次应执行日期',
+    veterinarian VARCHAR(50) COMMENT '兽医/医院名',
+    cost DECIMAL(10,2) COMMENT '费用',
+    photos JSON COMMENT '照片URL数组',
+    status VARCHAR(20) DEFAULT 'COMPLETED' COMMENT 'COMPLETED/SCHEDULED/CANCELLED',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    is_deleted TINYINT DEFAULT 0,
+    INDEX idx_pet_id (pet_id),
+    INDEX idx_event_type (event_type),
+    INDEX idx_next_date (next_date),
+    INDEX idx_pet_type (pet_id, event_type)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='健康事件表';

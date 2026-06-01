@@ -1,0 +1,19 @@
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+*.iml
+
+# Build
+backend/target/
+frontend/dist/
+
+# Uploads
+uploads/
+
+# OS
+.DS_Store
+Thumbs.db

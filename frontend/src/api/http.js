@@ -1,0 +1,40 @@
+import axios from 'axios'
+import { STORAGE_KEYS } from '../utils/constants'
+
+const http = axios.create({
+  baseURL: '/api/v1',
+  timeout: 15000
+})
+
+http.interceptors.request.use(config => {
+  const token = localStorage.getItem(STORAGE_KEYS.TOKEN)
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
+  return config
+})
+
+http.interceptors.response.use(
+  res => {
+    const body = res.data
+    // 后端统一格式 {code, message, data}，HTTP 200 但业务码非 200 时也应 reject
+    if (body && typeof body.code === 'number' && body.code !== 200) {
+      const err = new Error(body.message || '请求失败')
+      err.response = { status: body.code, data: body }
+      return Promise.reject(err)
+    }
+    return body
+  },
+  error => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem(STORAGE_KEYS.TOKEN)
+      localStorage.removeItem(STORAGE_KEYS.USER)
+      if (window.location.pathname !== '/login') {
+        window.location.href = '/login'
+      }
+    }
+    return Promise.reject(error)
+  }
+)
+
+export default http
