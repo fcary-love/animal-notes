@@ -4,7 +4,7 @@ import { gsap } from 'gsap'
 import ChatMessage from '../components/chat/ChatMessage.vue'
 import ChatInput from '../components/chat/ChatInput.vue'
 import ThemedIcon from '../components/common/ThemedIcon.vue'
-import { STORAGE_KEYS } from '../utils/constants'
+import { STORAGE_KEYS, getApiBase } from '../utils/constants'
 import { usePets } from '../composables/usePets'
 import { createSession, getSessions, getSessionMessages, deleteSession } from '../api/chat'
 import { analyzePhoto } from '../api/ai'
@@ -222,7 +222,7 @@ async function onSend(text) {
   const token = localStorage.getItem(STORAGE_KEYS.TOKEN)
 
   try {
-    const resp = await fetch('/api/v1/ai/chat/stream', {
+    const resp = await fetch(`${getApiBase()}/api/v1/ai/chat/stream`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -310,18 +310,18 @@ async function onSendImage({ file, text: userText }) {
   const lastMsg = messages.value[messages.value.length - 1]
 
   try {
-    // Step 1: Analyze image with Vision AI
+    // Step 1: Analyze image with the photo service
     const visionRes = await analyzePhoto(file)
     const visionDesc = visionRes.data?.description || '一张宠物照片'
     const visionLabel = visionRes.data?.label || ''
 
     // Step 2: Send combined question to chat
     const combinedQuestion = userText
-      ? `[用户发了一张照片，AI识别结果：${visionDesc}${visionLabel ? '，标签：' + visionLabel : ''}] 用户问题：${userText}`
+      ? `[用户发了一张照片，照片识别结果：${visionDesc}${visionLabel ? '，标签：' + visionLabel : ''}] 用户问题：${userText}`
       : `[用户发了一张照片] 请根据照片内容聊聊：${visionDesc}`
 
     const token = localStorage.getItem(STORAGE_KEYS.TOKEN)
-    const resp = await fetch('/api/v1/ai/chat/stream', {
+    const resp = await fetch(`${getApiBase()}/api/v1/ai/chat/stream`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -409,8 +409,8 @@ onBeforeUnmount(() => {
     <section class="chat-hero chat-animate">
       <div>
         <p class="kicker">时光顾问</p>
-        <h1><ThemedIcon name="chat" :size="22" /> 宠物管家</h1>
-        <p>把喂养、健康、训练这些问题，写成一封可以慢慢读的回信。</p>
+        <h1><ThemedIcon name="quill" :size="22" /> 时光顾问</h1>
+        <p>把喂养、健康、训练这些问题，整理成一封可以慢慢读的回信。</p>
       </div>
       <div class="hero-actions">
         <button
@@ -431,7 +431,6 @@ onBeforeUnmount(() => {
             <line x1="17" y1="9" x2="23" y2="15"/>
           </svg>
         </button>
-        <span class="desk-mark"><ThemedIcon name="quill" :size="54" /></span>
       </div>
     </section>
 
@@ -519,9 +518,9 @@ onBeforeUnmount(() => {
 .chat-page {
   flex: 1;
   width: 100%;
-  max-width: 1100px;
+  max-width: 1120px;
   margin: 0 auto;
-  padding: 1.25rem 1.5rem 2rem;
+  padding: 1.45rem 1.5rem 2rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -541,9 +540,10 @@ onBeforeUnmount(() => {
   align-items: center;
   justify-content: space-between;
   gap: 1.2rem;
-  padding: 1.1rem 0 1rem;
-  margin-bottom: 0.8rem;
+  padding: 1.1rem 0 1.15rem;
+  margin-bottom: 0.65rem;
   border-top: 2px solid var(--accent);
+  border-bottom: 1px solid var(--border-subtle);
 }
 .chat-hero > div:first-child { flex: 1; min-width: 0; }
 .chat-hero h1 {
@@ -552,10 +552,10 @@ onBeforeUnmount(() => {
   gap: 8px;
   margin: 0;
   font-family: var(--font-display);
-  font-size: 1.6rem;
+  font-size: 1.7rem;
   font-weight: 700;
   line-height: 1.3;
-  letter-spacing: 0.02em;
+  letter-spacing: 0;
   color: var(--text-primary);
 }
 .chat-hero p:last-child {
@@ -563,11 +563,6 @@ onBeforeUnmount(() => {
   font-size: 0.82rem;
   color: var(--text-muted);
   line-height: 1.6;
-}
-.desk-mark {
-  color: var(--accent);
-  opacity: 0.15;
-  flex-shrink: 0;
 }
 .hero-actions {
   display: flex;

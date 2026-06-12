@@ -6,14 +6,35 @@
 # IDE
 .idea/
 *.iml
+.vscode/
 
 # Build
 backend/target/
 frontend/dist/
 
-# Uploads
+# Dependencies
+frontend/node_modules/
+
+# Database migrations
+backend/src/main/resources/db/
+
+# Uploads & runtime data
+backend/uploads/
 uploads/
+*.log
+
+# Documentation & records
+docs/
+jilu/
+backend-builder/
+frontend-builder/
+frontend-design/
+frontend-design-cn/
+
+# Claude Code
+.claude/
 
 # OS
 .DS_Store
 Thumbs.db
+desktop.ini

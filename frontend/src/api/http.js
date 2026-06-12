@@ -1,8 +1,19 @@
 import axios from 'axios'
+import { Capacitor } from '@capacitor/core'
 import { STORAGE_KEYS } from '../utils/constants'
 
+// 检测运行环境，设置 API 基础地址
+function getBaseURL() {
+  if (Capacitor.isNativePlatform()) {
+    // Android App: 用电脑的局域网 IP 访问后端
+    return 'http://10.0.2.2:8081/api/v1'
+  }
+  // 浏览器: 相对路径（走 Vite proxy 或同源）
+  return '/api/v1'
+}
+
 const http = axios.create({
-  baseURL: '/api/v1',
+  baseURL: getBaseURL(),
   timeout: 15000
 })
 

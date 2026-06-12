@@ -3,7 +3,7 @@ import { ref, nextTick } from 'vue'
 import ChatMessage from './ChatMessage.vue'
 import ChatInput from './ChatInput.vue'
 import ThemedIcon from '../common/ThemedIcon.vue'
-import { STORAGE_KEYS } from '../../utils/constants'
+import { STORAGE_KEYS, getApiBase } from '../../utils/constants'
 
 const collapsed = ref(true)
 const messages = ref([])
@@ -30,7 +30,7 @@ async function onSend(text) {
   const token = localStorage.getItem(STORAGE_KEYS.TOKEN)
 
   try {
-    const resp = await fetch('/api/v1/ai/chat/stream', {
+    const resp = await fetch(`${getApiBase()}/api/v1/ai/chat/stream`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -49,6 +49,15 @@ function closeDrawer() {
   drawerVisible.value = false
 }
 
+// 移动端菜单
+const mobileMenuOpen = ref(false)
+function toggleMobileMenu() {
+  mobileMenuOpen.value = !mobileMenuOpen.value
+}
+function closeMobileMenu() {
+  mobileMenuOpen.value = false
+}
+
 // 更多菜单
 const moreOpen = ref(false)
 const moreLoading = ref(false)
@@ -138,6 +147,14 @@ async function loadMoreOverview() {
         </svg>
         <span class="logo-text">宠物时光手帐</span>
       </router-link>
+      <!-- 移动端汉堡按钮 -->
+      <button class="mobile-menu-btn" v-if="isLoggedIn && currentUser" @click="toggleMobileMenu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
       <nav class="header-nav" v-if="isLoggedIn && currentUser">
         <router-link to="/dashboard" class="nav-link">主页</router-link>
         <router-link to="/timeline" class="nav-link">时间线</router-link>
@@ -182,6 +199,28 @@ async function loadMoreOverview() {
       </nav>
     </div>
   </header>
+
+  <!-- Mobile menu -->
+  <Transition name="mobile-menu">
+    <div class="mobile-menu-overlay" v-if="mobileMenuOpen" @click.self="closeMobileMenu">
+      <div class="mobile-menu-panel">
+        <div class="mobile-menu-header">
+          <span>{{ currentUser?.nickname || currentUser?.username }}</span>
+          <button class="mobile-menu-close" @click="closeMobileMenu">&times;</button>
+        </div>
+        <nav class="mobile-menu-nav">
+          <router-link to="/dashboard" @click="closeMobileMenu">主页</router-link>
+          <router-link to="/timeline" @click="closeMobileMenu">时间线</router-link>
+          <router-link to="/ai/chat" @click="closeMobileMenu">宠物管家</router-link>
+          <router-link to="/health" @click="closeMobileMenu">健康档案</router-link>
+          <router-link to="/album" @click="closeMobileMenu">成长相册</router-link>
+          <router-link to="/admin/knowledge" @click="closeMobileMenu">知识库</router-link>
+          <router-link to="/profile" @click="closeMobileMenu">个人资料</router-link>
+        </nav>
+        <button class="mobile-menu-logout" @click="logout">退出登录</button>
+      </div>
+    </div>
+  </Transition>
 
   <!-- Drawer -->
   <SlideDrawer :visible="drawerVisible" :title="drawerTitle" @close="closeDrawer">
@@ -356,23 +395,100 @@ async function loadMoreOverview() {
   color: var(--accent);
 }
 
-/* 窄屏适配 */
-@media (max-width: 768px) {
-  .app-header { padding: 0 1rem; }
-  .header-inner { height: 50px; }
-  .header-nav { gap: 0.2rem; }
-  .nav-link { padding: 4px 5px; font-size: 0.78rem; }
-  .nav-placeholder { padding: 4px 4px; font-size: 0.78rem; }
-  .nav-placeholder span { display: none; }
-  .nav-greeting { display: none; }
-  .logo-text { font-size: 1.05rem; }
-  .nav-divider { margin: 0 2px; }
+/* 汉堡按钮 - 默认隐藏 */
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 6px;
 }
 
-@media (max-width: 480px) {
-  .app-header { padding: 0 0.6rem; }
-  .nav-link { padding: 4px 3px; font-size: 0.75rem; }
-  .nav-placeholder { padding: 4px 3px; }
-  .nav-logout { padding: 3px 8px; font-size: 0.75rem; }
+/* 移动端菜单 */
+.mobile-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.3);
+  z-index: 500;
+}
+.mobile-menu-panel {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 260px;
+  background: var(--bg-surface);
+  display: flex;
+  flex-direction: column;
+  box-shadow: -4px 0 20px rgba(0,0,0,0.1);
+}
+.mobile-menu-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-subtle);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1rem;
+}
+.mobile-menu-close {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+.mobile-menu-nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 8px 0;
+  overflow-y: auto;
+}
+.mobile-menu-nav a {
+  display: block;
+  padding: 12px 20px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.92rem;
+  transition: background var(--duration-fast);
+}
+.mobile-menu-nav a:hover,
+.mobile-menu-nav a.router-link-active {
+  background: var(--accent-surface);
+  color: var(--accent);
+}
+.mobile-menu-logout {
+  margin: 12px 20px 20px;
+  padding: 10px;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  cursor: pointer;
+}
+.mobile-menu-logout:hover {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+.mobile-menu-enter-active { transition: opacity 0.2s ease; }
+.mobile-menu-leave-active { transition: opacity 0.15s ease; }
+.mobile-menu-enter-from, .mobile-menu-leave-to { opacity: 0; }
+.mobile-menu-enter-active .mobile-menu-panel { transition: transform 0.2s ease; }
+.mobile-menu-leave-active .mobile-menu-panel { transition: transform 0.15s ease; }
+.mobile-menu-enter-from .mobile-menu-panel { transform: translateX(100%); }
+.mobile-menu-leave-to .mobile-menu-panel { transform: translateX(100%); }
+
+/* 窄屏适配 */
+@media (max-width: 768px) {
+  .app-header { padding: 0 0.8rem; }
+  .header-inner { height: 50px; }
+  .header-nav { display: none; }
+  .mobile-menu-btn { display: flex; }
+  .logo-text { font-size: 1rem; }
 }
 </style>

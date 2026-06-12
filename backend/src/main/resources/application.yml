@@ -5,7 +5,7 @@ spring:
   datasource:
     url: ${DB_URL:jdbc:mysql://localhost:3306/pet_timeline?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&characterEncoding=UTF-8}
     username: ${DB_USERNAME:root}
-    password: ${DB_PASSWORD:654321}
+    password: ${DB_PASSWORD:your_db_password}
     driver-class-name: com.mysql.cj.jdbc.Driver
   flyway:
     enabled: true
@@ -37,13 +37,13 @@ mybatis-plus:
 
 app:
   jwt:
-    secret: ${JWT_SECRET:PetTimeline-JWT-Secret-Key-2026-ChangeMe-In-Production}
+    secret: ${JWT_SECRET:your-jwt-secret-must-be-at-least-24-characters}
     expiration: 604800000  # 7 days in ms
   upload:
     path: ${UPLOAD_PATH:./uploads}
   ai:
     zhipu:
-      api-key: ${AI_API_KEY:sk-be805627afba4ff2b8ff473a3e913689}
+      api-key: ${AI_API_KEY:sk-your-api-key}
       chat-model: ${AI_CHAT_MODEL:qwen3.5-omni-flash}
       vision-model: ${AI_VISION_MODEL:qwen3.5-omni-plus}
       embedding-model: ${AI_EMBEDDING_MODEL:text-embedding-v3}

@@ -1,0 +1,9 @@
+{
+  "appId": "com.pettimeline.app",
+  "appName": "宠物时光手帐",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "http",
+    "cleartext": true
+  }
+}
